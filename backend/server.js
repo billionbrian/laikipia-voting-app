@@ -4,10 +4,10 @@ const cors = require('cors');
 const dotenv = require('dotenv');
 const voteRoutes = require('./routes/VoteRoutes');
 
-dotenv.config();
+require('dotenv').config();
 
 const app = express();
-
+       
 app.use(cors());
 app.use(express.json());
 
@@ -29,4 +29,4 @@ mongoose
         console.error('MongoDB connection error:', error);
     });
 
-app.use('/votes', voteRoutes);
+app.use('/api/votes', voteRoutes);

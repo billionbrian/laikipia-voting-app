@@ -1,0 +1,90 @@
+script<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Admin Dashboard - Votes</title>
+        <style>
+            body {
+                font-family: 'Segoe UI', sans-serif;
+                padding: 30px;
+                background: #f4f7fa;
+            }
+h2 {
+                color: #333;
+            }
+            .vote-section {
+                margin-bottom: 20px;
+                padding: 20px;
+                border-radius: 8px;
+                background: white;
+                box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+            }
+            .vote-section h3 {
+                margin-bottom: 10px;
+            }
+            .vote-section ul {
+                list-style: none;
+                padding: 0;
+            }
+            .vote-section li {
+                padding: 6px 0;
+                border-bottom: 1px solid #eee;
+            }
+            </style>
+            </head>
+    <body>
+        <h2>Vote Results - Admin Dashboard</h2>
+        <div id="resultsContainer">Loading....</div>
+
+
+        <script>
+            async function loadVotes() {
+                try {
+                    const res = await
+                        fetch(""https://laikipia-voting-backend.onrender.com/api/votes");
+                        const data = await res.json();
+
+                        // Group votes by category and nominee
+                        const voteMap = {};
+
+                        data.forEach(({ category, nominee})) => {
+                            if (!voteMap[category]) {
+                                voteMap[category] = {};
+                            voteMap[category][nominee] = (voteMap[category][nominee] || 0) + 1;
+                        });
+
+                        const container =
+                        document.getElementById("resultsContainer");
+                        container.innerHTML = "";
+
+                        object.entries(voteMap).forEach(([category, nominees]) => {
+                            const section = document.createElement("div");
+                            section.className = "vote-section";
+                            section.innerHTML = `<h3>${category}</h3><ul></ul>`;
+
+                            const ul = section.querySelector("ul");
+
+                            object.entries(nominees).forEach(([nominee, count]) => {
+                                const li = document.createElement("li");
+                                li.textContent = `${nominee}: ${count} votes`;
+                                ul.appendChild(li);
+                            });
+                            
+                            container.appendChild(section);
+                        });
+                            
+                } catch (error) {
+
+                    document.getElementById("resultsContainer").innerHTML = "Failed to load results. Please try again later.";
+                    console.error("error loading votes:", error);
+                }
+            }
+
+            loadVotes();
+            </script>
+            </body>
+            </html>
+
+
+            
